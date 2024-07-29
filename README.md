@@ -148,3 +148,39 @@ Dado que, de acuerdo al modelo de datos, los productos hijos estan asociados a p
 SELECT ProductId FROM ProductAttribute WHERE VariantParentId = '{{current_parent_product_id}}' AND Product.IsActive = true
 ```
 Una vez más, este consulta retorna una lista de productos, y se almacena el Id del primer producto en la lista en la variable de colección <code>current_child_product_id</code>.
+
+### [POST] Create Deal For Parent Product
+
+Se entiende que para que el sistema de ofertas funcione correctamente, es necesario que exista un registro de oferta asociado a un producto padre. Para esto se realiza una solicitud de tipo *POST* con el siguiente cuerpo:
+
+```json
+{
+    "Account__c": "{{current_account_id}}",
+    "Product__c": "{{current_parent_product_id}}",
+    "EndDate__c": "{{end_date}}",
+    "StartDate__c": "{{start_date}}"
+}
+```
+
+Donde se asocia la cuenta, el producto padre, y las fechas de inicio y término de la oferta. Esta solicitud intentará crear un registro en el objeto `Deal__c` en Salesforce. Si la solicitud se realiza correctamente, se obtendrá un mensaje de respuesta similar a lo siguiente:
+
+```json
+{
+    "id": "a2FVZ00000056ZR2AY",
+    "success": true,
+    "errors": []
+}
+```
+
+### [POST] Create Deal For Child Product
+
+Este llamado funciona exactamente igual que el anterior, sólamente se varía la obtención de id del producto padre por el id del producto hijo. El cuerpo de la solicitud es el siguiente:
+
+```json
+{
+	"Account__c": "{{current_account_id}}",
+	"Product__c": "{{current_child_product_id}}",
+	"EndDate__c": "{{end_date}}",
+	"StartDate__c": "{{start_date}}"
+}
+```
