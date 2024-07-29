@@ -1,0 +1,908 @@
+{
+	"info": {
+		"_postman_id": "1203b606-2a19-4fc7-88f3-36d828d409df",
+		"name": "B2BOMS2-5 - Creación de Ofertas",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7556010"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Get Auth Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"const id = jsonData.id.split('/');\r",
+									"\r",
+									"if (!jsonData.error) {\r",
+									"    const context = pm.environment.name ? pm.environment : pm.collectionVariables;\r",
+									"    context.set(\"access_token\", jsonData.access_token);\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{sf_client_id}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{sf_client_secret}}",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "{{sf_user_name}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{sf_password}}{{sf_user_token}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{sf_url}}/services/oauth2/token",
+							"host": [
+								"{{sf_url}}"
+							],
+							"path": [
+								"services",
+								"oauth2",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "SObject CRUD",
+			"item": [
+				{
+					"name": "Create Record",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"const id = jsonData.id.split('/');",
+									"",
+									"if (!jsonData.error) {",
+									"    const context = pm.collectionVariables;",
+									"    context.set(\"current_record\", jsonData.id);",
+									"}",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"OrderSummaryId\": \"1OsVZ00000007vx0AA\",\n    \"Status\": \"Borrador\",\n    \"FulfilledToName\": \"Test\",\n    \"VehicleLicense__c\": \"AACL99\",\n    \"Transport_Number__c\": 1112233,\n    \"External_Reference_Id__c\": \"124555asdfasdf33\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{sf_url}}/services/data/v{{version}}/sobjects/{{current_sobject}}",
+							"host": [
+								"{{sf_url}}"
+							],
+							"path": [
+								"services",
+								"data",
+								"v{{version}}",
+								"sobjects",
+								"{{current_sobject}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Record Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"const id = jsonData.id.split('/');",
+									"",
+									"if (!jsonData.error) {",
+									"    const context = pm.collectionVariables;",
+									"    context.set(\"current_record\", jsonData.id);",
+									"}",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"OrderSummaryId\": \"1OsVZ00000007vx0AA\",\n    \"Status\": \"Borrador\",\n    \"FulfilledToName\": \"Test\",\n    \"VehicleLicense__c\": \"AACL99\",\n    \"Transport_Number__c\": 1112233,\n    \"External_Reference_Id__c\": \"124555asdfasdf33\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{sf_url}}/services/data/v{{version}}/sobjects/{{current_sobject}}",
+							"host": [
+								"{{sf_url}}"
+							],
+							"path": [
+								"services",
+								"data",
+								"v{{version}}",
+								"sobjects",
+								"{{current_sobject}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Record",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();",
+									"const id = jsonData.id.split('/');",
+									"",
+									"if (!jsonData.error) {",
+									"    const context = pm.collectionVariables;",
+									"    context.set(\"current_record\", jsonData.id);",
+									"}",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"OrderSummaryId\": \"1OsVZ00000007vx0AA\",\n    \"Status\": \"Borrador\",\n    \"FulfilledToName\": \"Test\",\n    \"VehicleLicense__c\": \"AACL99\",\n    \"Transport_Number__c\": 1112233,\n    \"External_Reference_Id__c\": \"124555asdfasdf33\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{sf_url}}/services/data/v{{version}}/sobjects/{{current_sobject}}/{{current_record}}",
+							"host": [
+								"{{sf_url}}"
+							],
+							"path": [
+								"services",
+								"data",
+								"v{{version}}",
+								"sobjects",
+								"{{current_sobject}}",
+								"{{current_record}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Record",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Status\": \"Route\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{sf_url}}/services/data/v{{version}}/sobjects/{{current_sobject}}/{{current_record}}",
+							"host": [
+								"{{sf_url}}"
+							],
+							"path": [
+								"services",
+								"data",
+								"v{{version}}",
+								"sobjects",
+								"{{current_sobject}}",
+								"{{current_record}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Record",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{sf_url}}/services/data/v{{version}}/sobjects/:SOBJECT/{{current_record}}",
+							"host": [
+								"{{sf_url}}"
+							],
+							"path": [
+								"services",
+								"data",
+								"v{{version}}",
+								"sobjects",
+								":SOBJECT",
+								"{{current_record}}"
+							],
+							"variable": [
+								{
+									"key": "SOBJECT",
+									"value": "FulfillmentOrder"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get Test Account From Query",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();",
+							"const record = jsonData.records[0];",
+							"",
+							"const context = pm.collectionVariables;",
+							"console.log(record)",
+							"context.set(\"current_account_id\", record.Id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{sf_url}}/services/data/v{{version}}/query/?q=SELECT Id FROM Account WHERE CodigoSolicitante__c = '0000645248' LIMIT 1",
+					"host": [
+						"{{sf_url}}"
+					],
+					"path": [
+						"services",
+						"data",
+						"v{{version}}",
+						"query",
+						""
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "SELECT Id FROM Account WHERE CodigoSolicitante__c = '0000645248' LIMIT 1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Test Buyer Group Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();",
+							"const record = jsonData.records[0];",
+							"const context = pm.collectionVariables;",
+							"context.set(\"current_buyer_group_id\", record.BuyerGroupId);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{sf_url}}/services/data/v{{version}}/query/?q=SELECT BuyerGroupId FROM BuyerGroupMember WHERE BuyerId = '{{current_account_id}}'",
+					"host": [
+						"{{sf_url}}"
+					],
+					"path": [
+						"services",
+						"data",
+						"v{{version}}",
+						"query",
+						""
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "SELECT BuyerGroupId FROM BuyerGroupMember WHERE BuyerId = '{{current_account_id}}'"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Test Policy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();",
+							"const record = jsonData.records[0];",
+							"const context = pm.collectionVariables;",
+							"context.set(\"current_policy_id\", record.PolicyId);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{sf_url}}/services/data/v{{version}}/query/?q=SELECT PolicyId FROM CommerceEntitlementBuyerGroup WHERE BuyerGroupId = '{{current_buyer_group_id}}'",
+					"host": [
+						"{{sf_url}}"
+					],
+					"path": [
+						"services",
+						"data",
+						"v{{version}}",
+						"query",
+						""
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "SELECT PolicyId FROM CommerceEntitlementBuyerGroup WHERE BuyerGroupId = '{{current_buyer_group_id}}'"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Test Parent Products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();",
+							"const records = jsonData.records;",
+							"const context = pm.collectionVariables;",
+							"context.set(\"current_parent_product_id\",records[3].ProductId);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{sf_url}}/services/data/v{{version}}/query/?q=SELECT ProductId FROM CommerceEntitlementProduct WHERE PolicyId= '{{current_policy_id}}' AND Product.ProductClass = 'VariationParent' AND Product.IsActive = true AND Product.IsArchived = false",
+					"host": [
+						"{{sf_url}}"
+					],
+					"path": [
+						"services",
+						"data",
+						"v{{version}}",
+						"query",
+						""
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "SELECT ProductId FROM CommerceEntitlementProduct WHERE PolicyId= '{{current_policy_id}}' AND Product.ProductClass = 'VariationParent' AND Product.IsActive = true AND Product.IsArchived = false"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Test Product Attributes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let context = pm.collectionVariables\r",
+							"const jsonData = pm.response.json()\r",
+							"let records = jsonData.records\r",
+							"context.set('current_child_product_id', records[0].ProductId)\r",
+							"console.log(records[0].ProductId)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{sf_url}}/services/data/v{{version}}/query/?q=SELECT ProductId FROM ProductAttribute WHERE VariantParentId = '{{current_parent_product_id}}' AND Product.IsActive = true",
+					"host": [
+						"{{sf_url}}"
+					],
+					"path": [
+						"services",
+						"data",
+						"v{{version}}",
+						"query",
+						""
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "SELECT ProductId FROM ProductAttribute WHERE VariantParentId = '{{current_parent_product_id}}' AND Product.IsActive = true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Deal For Parent Product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var start_date = new Date(new Date().setDate(new Date().getDate() - 5));\r",
+							"var end_date = new Date(new Date().setDate(new Date().getDate() + 5));\r",
+							"let context =pm.collectionVariables;\r",
+							"context.set('start_date', start_date.toISOString())\r",
+							"context.set('end_date', end_date.toISOString())"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"Account__c\": \"{{current_account_id}}\",\n    \"Product__c\": \"{{current_parent_product_id}}\",\n    \"EndDate__c\": \"{{end_date}}\",\n    \"StartDate__c\": \"{{start_date}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{sf_url}}/services/data/v{{version}}/sobjects/Deal__c",
+					"host": [
+						"{{sf_url}}"
+					],
+					"path": [
+						"services",
+						"data",
+						"v{{version}}",
+						"sobjects",
+						"Deal__c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Deal For Child Product Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var start_date = new Date(new Date().setDate(new Date().getDate() - 5));\r",
+							"var end_date = new Date(new Date().setDate(new Date().getDate() + 5));\r",
+							"let context =pm.collectionVariables;\r",
+							"context.set('start_date', start_date.toISOString())\r",
+							"context.set('end_date', end_date.toISOString())"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"Account__c\": \"{{current_account_id}}\",\n    \"Product__c\": \"{{current_child_product_id}}\",\n    \"EndDate__c\": \"{{end_date}}\",\n    \"StartDate__c\": \"{{start_date}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{sf_url}}/services/data/v{{version}}/sobjects/Deal__c",
+					"host": [
+						"{{sf_url}}"
+					],
+					"path": [
+						"services",
+						"data",
+						"v{{version}}",
+						"sobjects",
+						"Deal__c"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "current_account_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "current_buyer_group_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "current_policy_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "current_parent_product_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "current_child_product_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "start_date",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "end_date",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
